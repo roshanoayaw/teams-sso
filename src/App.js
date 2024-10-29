@@ -1,7 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/auth-start");
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
