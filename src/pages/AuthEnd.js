@@ -5,10 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Spinner } from "@fluentui/react-components";
 import { ENDPOINTS } from "constants/appConstants";
 import { trackException } from "utils/helper.utils";
-import { toastDetails } from "constants/appConstants";
-import { toast } from "react-toastify";
 import { getToken } from "utils/helper.utils";
-import { AUTHSTART } from "constants/appConstants";
 
 function getHashParameters() {
   let hashParams = {};
