@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthStart from "./pages/AuthStart";
 import AuthLogin from "./pages/AuthLogin";
-import AuthEnd from "./pages/Authend";
+import AuthEndTest from "./pages/AuthEndTest";
 
 const router = createBrowserRouter([
   {
@@ -19,15 +19,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth-end",
-    element: <AuthEnd />,
+    element: <AuthEndTest />,
   },
   {
     path: "/auth-login",
     element: <AuthLogin />,
-  },
-  {
-    path: "/",
-    element: <App />,
   },
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));

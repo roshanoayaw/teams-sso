@@ -1,19 +1,16 @@
-// auth-start.js
-import { AUTHSTART } from "constants/appConstants";
 import queryString from "query-string";
 import { v4 as uuidv4 } from "uuid";
 import { app } from "@microsoft/teams-js";
+import { AUTHSTART } from "../constants/appConstants";
 
 const clientId = AUTHSTART.clientId;
-const redirectUri = `${AUTHSTART.redirectUri}/auth-end`;
+const redirectUrl = `${AUTHSTART.redirectUrl}/auth-end`;
 
 export default function AuthLogin() {
   app
     .initialize()
     .then(() => {
       app.getContext().then((context) => {
-        // Generate random state string and store it, so we can verify it in the callback
-        // let state = _guid(); // _guid() is a helper function in the sample
         const state = uuidv4();
         const nonce = uuidv4();
         localStorage.setItem("authState", state);
@@ -28,7 +25,7 @@ export default function AuthLogin() {
           response_mode: "fragment",
           scope:
             "https://graph.microsoft.com/User.Read email openid profile offline_access",
-          redirect_uri: redirectUri,
+          redirect_uri: redirectUrl,
           nonce: nonce,
           state: state,
           // The context object is populated by Teams; the loginHint attribute

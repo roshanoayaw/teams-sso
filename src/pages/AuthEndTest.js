@@ -1,11 +1,6 @@
 import { app, authentication } from "@microsoft/teams-js";
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useTranslation } from "react-i18next";
-import { Spinner } from "@fluentui/react-components";
-import { ENDPOINTS } from "constants/appConstants";
-import { trackException } from "utils/helper.utils";
-import { getToken } from "utils/helper.utils";
 
 function getHashParameters() {
   let hashParams = {};
@@ -22,34 +17,25 @@ function getHashParameters() {
   return hashParams;
 }
 
-function AuthEnd() {
-  const { t } = useTranslation();
-
+function AuthEndTest() {
   useEffect(() => {
     app.initialize();
     localStorage.removeItem("auth.error");
 
     let hashParams = getHashParameters();
 
-    // setStateauthtoken(access_token);
-
     if (hashParams["error"]) {
-      // Authentication/authorization failed
-      console.log("sso failed 38", hashParams);
-
       localStorage.setItem("auth.error", JSON.stringify(hashParams));
       authentication.notifyFailure(hashParams["error"]);
     } else if (hashParams["access_token"]) {
       const access_token = hashParams?.access_token;
-      console.log("hash params", hashParams);
       localStorage.setItem("consent_access_token", JSON.stringify(hashParams));
 
-      const url = `${ENDPOINTS.AUTHSTART_URL}${ENDPOINTS.AUTHSTART_ACCESS_TOKEN_API}?ssotoken=${access_token}&appId=${ENDPOINTS.GLOBAL_APP_ID}&pId=5AD6CF77-B8F0-4499-A60F-E53B62472732`;
-
+      const url = `api-url-which-returns-token-and-other-data-and-pass-this-${access_token}`;
       const headers = {
         "Content-Type": "application/json",
       };
-      console.log("sso failed 50 url", url);
+
       axios
         .post(url, { headers })
         .then(async (response) => {
@@ -65,22 +51,10 @@ function AuthEnd() {
         .catch(async (error) => {
           // Handle errors here
           const errorData = JSON.stringify(error);
-          trackException(error, {
-            email: localStorage.getItem("currentEmail"),
-            token: getToken(),
-            error,
-          });
-          console.log("requestConsent error", error);
-          // toast.error(t("SomethingWrong"), {
-          //   ...toastDetails,
-          //   className: "toast-error",
-          // });
           authentication.notifyFailure(errorData);
         });
     } else {
       localStorage.setItem("auth.error", JSON.stringify(hashParams));
-      console.log("sso failed 76", hashParams);
-
       authentication.notifyFailure("UnexpectedFailure");
     }
   }, []);
@@ -90,13 +64,9 @@ function AuthEnd() {
       style={{ minHeight: "100vh" }}
       className="d-flex justify-content-center align-item-center"
     >
-      <Spinner
-        size="small"
-        label={"Configuring your account..."}
-        labelPosition="below"
-      />
+      <p>loading</p>
     </div>
   );
 }
 
-export default AuthEnd;
+export default AuthEndTest;
